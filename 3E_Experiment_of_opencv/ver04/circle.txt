@@ -1,0 +1,13 @@
+		//ノイズ処理==========================================
+		Mat blur_img;
+		GaussianBlur(frame_shot, blur_img, Size(3,3), 10);
+		
+		Mat gray;
+		cvtColor(frame_shot, gray, CV_BGR2GRAY);
+   		GaussianBlur( gray, gray, Size(9, 9), 2, 2 );
+		//houghで円を検出, circlesに座標[i個目の円の][座標] 座標:0 -> x,  1 -> y??
+   		vector<Vec3f> circles;
+	    HoughCircles(gray, circles, CV_HOUGH_GRADIENT, 2, gray.rows, 200, 100, 50 );
+       
+		Point center(cvRound(circles[0][0]), cvRound(circles[0][1]));
+   		circle( frame_plus, center, 3, Scalar(0,255,0), -1, 8, 0 );
